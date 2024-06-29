@@ -146,7 +146,7 @@ onBeforeUnmount(() => {
         @click="isPlayPause"
         playsinline
         webkit-playsinline
-        :class="{ fullScreen: isFullScreen }"
+        :class="{ fullScreen: isFullScreen && !isMobile() }"
         @timeupdate="onTimeupdate"
     >
       <source
