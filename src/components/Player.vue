@@ -48,11 +48,11 @@ const speed = (newValue: string) => {
 watch(selected, speed)
 
 const requestFullScreen = async () => {
-  // if (playerEl.value.requestFullscreen && !isMobile()) {
-  //   await playerEl.value.requestFullscreen();
-  // } else if (video.value.webkitRequestFullscreen) {
+  if (playerEl.value.requestFullscreen && !isMobile()) {
+    await playerEl.value.requestFullscreen();
+  } else if (video.value.webkitRequestFullscreen) {
     await video.value.webkitRequestFullscreen();
-  // }
+  }
 }
 
 const toggleFullSize = () => {
@@ -127,10 +127,11 @@ onBeforeUnmount(() => {
 <template>
   <div class="player"
        ref="playerEl"
-       @keydown.space="onClickSpace"
        tabindex="0"
+       :class="{ fullScreenWrapper: isFullScreen }"
        @mouseenter="onMouseover"
        @mousemove="onMouseover"
+       @keydown.space="onClickSpace"
        @click="onMouseover"
        @keydown.right="rewindForward"
        @keydown.left="rewindBackward"
@@ -143,7 +144,8 @@ onBeforeUnmount(() => {
         crossorigin="anonymous"
         poster="@/assets/img/statham.webp"
         @click="isPlayPause"
-        :class="{ fullScreen: isFullScreen && !isMobile() }"
+        playsinline
+        :class="{ fullScreen: isFullScreen }"
         @timeupdate="onTimeupdate"
     >
       <source
@@ -273,6 +275,15 @@ video::-webkit-media-controls {
 .fullScreen {
   width: 100%;
   height: 100%;
+}
+
+.fullScreenWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 </style>`
