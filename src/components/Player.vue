@@ -48,20 +48,11 @@ const speed = (newValue: string) => {
 watch(selected, speed)
 
 const requestFullScreen = async () => {
-  // if (playerEl.value.requestFullscreen) {
-  //   await playerEl.value.requestFullscreen();
-  // } else if (video.value.requestFullscreen) {
-  //   await video.value.requestFullscreen();
-  // }
 
-  if (video.value.requestFullscreen) {
-    await video.value.requestFullscreen();
+  if (playerEl.value.requestFullscreen) {
+    await playerEl.value.requestFullscreen();
   } else if (video.value.webkitRequestFullscreen) {
     await video.value.webkitRequestFullscreen();
-  } else if (video.value.mozRequestFullScreen) {
-    await video.value.mozRequestFullScreen();
-  } else if (video.value.msRequestFullscreen) {
-    await video.value.msRequestFullscreen();
   } else if (video.value.webkitEnterFullScreen) {
     await video.value.webkitEnterFullScreen();
   }
