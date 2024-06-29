@@ -1,0 +1,6 @@
+<script setup lang="ts">
+import Player from "@/components/Player.vue";
+</script>
+<template>
+  <player></player>
+</template>

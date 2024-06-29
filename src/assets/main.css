@@ -1,0 +1,15 @@
+@import "src/assets/variables.css";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
