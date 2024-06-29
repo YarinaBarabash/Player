@@ -143,7 +143,6 @@ onBeforeUnmount(() => {
         crossorigin="anonymous"
         poster="@/assets/img/statham.webp"
         @click="isPlayPause"
-        webkit-playsinline
         :class="{ fullScreen: isFullScreen && !isMobile() }"
         @timeupdate="onTimeupdate"
     >
