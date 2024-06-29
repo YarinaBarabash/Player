@@ -48,7 +48,7 @@ const speed = (newValue: string) => {
 watch(selected, speed)
 
 const requestFullScreen = async () => {
-  if (playerEl.value.requestFullscreen && !isMobile()) {
+  if (playerEl.value.requestFullscreen) {
     await playerEl.value.requestFullscreen();
   } else if (video.value.webkitRequestFullscreen) {
     await video.value.webkitRequestFullscreen();
@@ -128,7 +128,6 @@ onBeforeUnmount(() => {
   <div class="player"
        ref="playerEl"
        tabindex="0"
-       :class="{ fullScreenWrapper: isFullScreen }"
        @mouseenter="onMouseover"
        @mousemove="onMouseover"
        @keydown.space="onClickSpace"
@@ -147,6 +146,7 @@ onBeforeUnmount(() => {
         playsinline
         :class="{ fullScreen: isFullScreen }"
         @timeupdate="onTimeupdate"
+        allowfullscreen
     >
       <source
           src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -276,14 +276,4 @@ video::-webkit-media-controls {
   width: 100%;
   height: 100%;
 }
-
-.fullScreenWrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 </style>`
