@@ -48,11 +48,11 @@ const speed = (newValue: string) => {
 watch(selected, speed)
 
 const requestFullScreen = async () => {
-  if (playerEl.value.requestFullscreen) {
-    await playerEl.value.requestFullscreen();
-  } else if (video.value.webkitRequestFullscreen) {
-    await video.value.webkitRequestFullscreen();
-  }
+  // if (playerEl.value.requestFullscreen) {
+  //   await playerEl.value.requestFullscreen();
+  // } else if (video.value.requestFullscreen) {
+    await video.value.requestFullscreen();
+  // }
 }
 
 const toggleFullSize = () => {
