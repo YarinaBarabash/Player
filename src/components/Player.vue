@@ -110,7 +110,6 @@ const fullscreenChangeHandler = () => {
 const updateCurrentTime = (newCurrentTime: number) => {
   video.value.currentTime = newCurrentTime;
   currentTime.value = newCurrentTime;
-  console.log("currentTime", newCurrentTime);
 }
 
 onMounted(()=> {
@@ -144,7 +143,6 @@ onBeforeUnmount(() => {
         crossorigin="anonymous"
         poster="@/assets/img/statham.webp"
         @click="isPlayPause"
-        playsinline
         webkit-playsinline
         :class="{ fullScreen: isFullScreen && !isMobile() }"
         @timeupdate="onTimeupdate"
