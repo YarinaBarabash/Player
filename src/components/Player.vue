@@ -45,12 +45,8 @@ watch(selected, speed)
 const requestFullScreen = async () => {
   if (playerEl.value.requestFullscreen) {
     await playerEl.value.requestFullscreen();
-  } else if (playerEl.value.webkitRequestFullscreen) {
-    await playerEl.value.webkitRequestFullscreen();
-  } else if (playerEl.value.msRequestFullscreen) {
-    await playerEl.value.msRequestFullscreen();
-  } else if (playerEl.value.webkitEnterFullScreen) {
-    await playerEl.value.webkitEnterFullScreen();
+  } else if (video.value.webkitRequestFullscreen) {
+    await video.value.webkitRequestFullscreen();
   }
 }
 
