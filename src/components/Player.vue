@@ -145,6 +145,7 @@ onBeforeUnmount(() => {
         height="720"
         crossorigin="anonymous"
         poster="@/assets/img/statham.webp"
+        :class="{ fullScreen: isFullScreen }"
         @click="isPlayPause"
         playsinline
         @timeupdate="onTimeupdate"
