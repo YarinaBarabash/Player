@@ -17,6 +17,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'on-time-updated', newCurrentTime: number): void;
 }>()
+
 const currentTimeInPercent = computed(() => {
   if (props.currentTime === 0) {
     return 0;
@@ -33,16 +34,15 @@ const currentTimeInPercent = computed(() => {
 </template>
 
 <style scoped>
-
 .timeline {
   position: relative;
   width: 100%;
   height: 6px;
   background: var(--timeline);
 }
+
 .timeline-current {
   background: var(--active-timeline);
   height: 6px;
 }
-
 </style>
