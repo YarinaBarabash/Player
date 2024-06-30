@@ -108,9 +108,11 @@ const onTimeUpdate = (event: Event) => {
 }
 
 const onFullscreenChangeHandler = () => {
-  if(!document.fullscreenElement || !document.webkitFullscreenEnabled || !document.fullscreenEnabled) {
-    isFullScreen.value = false
-  }
+  setTimeout(() => {
+    if (!document.fullscreenElement || !document.webkitFullscreenEnabled || !document.fullscreenEnabled) {
+      isFullScreen.value = false
+    }
+  }, 200)
 }
 
 const updateCurrentTime = (newCurrentTime: number) => {
