@@ -64,8 +64,8 @@ const updateCurrentTime = (newTime: number) => {
         aria-label="воспроизведение/пауза"
         title="воспроизведение/пауза"
     >
-      <img v-show="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
-      <img v-show="isPlaying" src="@/assets/img/pause-button.svg" alt="Пауза" >
+      <img v-if="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
+      <img v-else src="@/assets/img/pause-button.svg" alt="Пауза" >
     </button>
     <button
         class="rewind-forward-button"
@@ -97,8 +97,8 @@ const updateCurrentTime = (newTime: number) => {
         title="Полноэкранный режим"
         @click="toggleFullSize"
     >
-      <img src="@/assets/img/fullscreen.svg" alt="full-size" v-show="!isFullScreen">
-      <img src="@/assets/img/fullscreen-exit.svg" alt="Exit full-size" v-show="isFullScreen">
+      <img src="@/assets/img/fullscreen.svg" alt="full-size" v-if="!isFullScreen">
+      <img src="@/assets/img/fullscreen-exit.svg" alt="Exit full-size" v-else>
     </button>
     <button
         class="make-screenshot-button"

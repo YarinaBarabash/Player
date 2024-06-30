@@ -141,7 +141,6 @@ onBeforeUnmount(() => {
       poster="@/assets/img/statham.webp"
       :class="{ fullScreen: isFullScreen }"
       playsinline
-      allowfullscreen
       @timeupdate="onTimeUpdate"
       @click="togglePlayPause"
     >
