@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref, watch} from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import Timeline from "@/components/Timeline.vue";
+
+const REWIND_TIME = 5
+const TIMEOUT_HIDDEN_CONTROLS = 2000
 
 const videoEl = ref<HTMLVideoElement>();
 const playerEl = ref<HTMLDivElement>();
+
 const selectedSpeed = ref<string>('1');
 const currentTime = ref<number>(0);
 const imageURL = ref<string>('');
@@ -11,11 +15,7 @@ const isControlsShown = ref<boolean>(false);
 const isPlaying= ref<boolean>(false);
 const isFullScreen = ref<boolean>(false);
 
-
 let timeoutId: number;
-
-const REWIND_TIME = 5
-const TIMEOUT_HIDDEN_CONTROLS = 2000
 
 const togglePlayPause = () => {
   if (!isPlaying.value) {
@@ -226,7 +226,6 @@ watch(selectedSpeed, changeSpeed)
 </template>
 
 <style scoped>
-
 .player {
   position: relative;
   width: max-content;
@@ -241,8 +240,8 @@ video {
 }
 
 button {
-  width: 45px;
-  height: 45px;
+  width: var(--button-width);
+  height: var(--button-height);
   position: absolute;
   left: 0;
   top: 0;
@@ -252,8 +251,8 @@ button {
 }
 
 img {
-  width: var(--icon-width);
-  height: var(--icon-height);
+  width: var(--button-width);
+  height: var(--button-height);
 }
 
 .full-size-button {
