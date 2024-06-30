@@ -52,14 +52,22 @@ const requestFullScreen = async () => {
   }
 }
 
+const exitFullscreen = () => {
+  if (document.exitFullscreen) {
+    document.exitFullscreen()
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
+
 const toggleFullSize = () => {
   playerEl.value.focus()
 
-  if (!document.fullscreenElement) {
+  if (!isFullScreen.value) {
     requestFullScreen()
     isFullScreen.value = true
   } else {
-    document.exitFullscreen()
+    exitFullscreen()
     isFullScreen.value = false
   }
 }
