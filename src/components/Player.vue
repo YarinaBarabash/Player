@@ -1,56 +1,54 @@
 <script setup lang="ts">
-import {onBeforeUnmount, onMounted, ref, watch, computed} from "vue";
+import {onBeforeUnmount, onMounted, ref, watch} from "vue";
 import Timeline from "@/components/Timeline.vue";
 
-const video = ref<HTMLVideoElement>();
+const videoEl = ref<HTMLVideoElement>();
 const playerEl = ref<HTMLDivElement>();
-const selected = ref<string>('1');
+const selectedSpeed = ref<string>('1');
 const currentTime = ref(0);
-const imageURL = ref<string | null>(null);
-const isShowing = ref(false);
+const imageURL = ref<string>('');
+const isControlsShown = ref(false);
 const isPlaying= ref(false);
 const isFullScreen = ref(false);
 
 
 let timeoutId: number;
-let fullScreenSrc = "";
-let fullscreenAlt = "";
 
 const REWIND_TIME = 5
 const TIMEOUT_HIDDEN_CONTROLS = 2000
 
 const togglePlayPause = () => {
   if (!isPlaying.value) {
-    video.value.play()
+    videoEl.value.play()
     isPlaying.value = true
   } else {
-    video.value.pause()
+    videoEl.value.pause()
     isPlaying.value = false
   }
 }
 
 const rewindForward = () => {
-  video.value.currentTime += REWIND_TIME
+  videoEl.value.currentTime += REWIND_TIME
   currentTime.value += REWIND_TIME
 }
 
 
 const rewindBackward = () => {
-  video.value.currentTime -= REWIND_TIME
+  videoEl.value.currentTime -= REWIND_TIME
   currentTime.value -= REWIND_TIME
 }
 
 const changeSpeed = (newValue: string) => {
-  video.value.playbackRate = Number(newValue)
+  videoEl.value.playbackRate = Number(newValue)
 }
 
 const requestFullScreen = async () => {
   if (playerEl.value.requestFullscreen) {
     await playerEl.value.requestFullscreen();
-  } else if (video.value.webkitRequestFullscreen) {
-    await video.value.webkitRequestFullscreen();
-  } else if (video.value.webkitEnterFullScreen) {
-    await video.value.webkitEnterFullScreen();
+  } else if (videoEl.value.webkitRequestFullscreen) {
+    await videoEl.value.webkitRequestFullscreen();
+  } else if (videoEl.value.webkitEnterFullScreen) {
+    await videoEl.value.webkitEnterFullScreen();
   }
 }
 
@@ -70,31 +68,31 @@ const makeScreenshot = () => {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  ctx.drawImage( video.value, 0, 0, canvas.width, canvas.height );
+  ctx.drawImage( videoEl.value, 0, 0, canvas.width, canvas.height );
   imageURL.value = canvas.toDataURL('image/jpeg');
 }
 const clearScreenshot = () => {
   imageURL.value = ''
 }
 
-const hiddenControls = () => {
+const hideControlsWithTimeout = () => {
   if (timeoutId) {
     clearTimeout(timeoutId)
   }
 
   timeoutId = setTimeout(() => {
-    isShowing.value = false
+    isControlsShown.value = false
   }, TIMEOUT_HIDDEN_CONTROLS)
 }
 
-const onMouseover = () => {
-  isShowing.value = true;
-  hiddenControls()
+const showControls = () => {
+  isControlsShown.value = true;
+  hideControlsWithTimeout()
 }
 
 const onSpaceClick = () => {
   togglePlayPause();
-  onMouseover()
+  showControls()
 }
 
 const onTimeUpdate = (event: Event) => {
@@ -108,21 +106,21 @@ const onFullscreenChangeHandler = () => {
 }
 
 const updateCurrentTime = (newCurrentTime: number) => {
-  video.value.currentTime = newCurrentTime;
+  videoEl.value.currentTime = newCurrentTime;
   currentTime.value = newCurrentTime;
 }
 
 onMounted(()=> {
   playerEl.value.focus()
   document.addEventListener('fullscreenchange', onFullscreenChangeHandler);
-  currentTime.value = video.value.currentTime;
+  currentTime.value = videoEl.value.currentTime;
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('fullscreenchange', onFullscreenChangeHandler);
 })
 
-watch(selected, changeSpeed)
+watch(selectedSpeed, changeSpeed)
 </script>
 
 <template>
@@ -130,17 +128,17 @@ watch(selected, changeSpeed)
     class="player"
     ref="playerEl"
     tabindex="0"
-    @mouseenter="onMouseover"
-    @mousemove="onMouseover"
+    @mouseenter="showControls"
+    @mousemove="showControls"
     @keydown.space="onSpaceClick"
-    @click="onMouseover"
+    @click="showControls"
     @keydown.right="rewindForward"
     @keydown.left="rewindBackward"
     @keydown.f="toggleFullSize"
   >
 
     <video
-        ref="video"
+        ref="videoEl"
         crossorigin="anonymous"
         poster="@/assets/img/statham.webp"
         :class="{ fullScreen: isFullScreen }"
@@ -156,7 +154,7 @@ watch(selected, changeSpeed)
     </video>
 
     <transition>
-      <div class="controls" v-show="isShowing">
+      <div class="controls" v-show="isControlsShown">
         <button
             @click="togglePlayPause"
             class="play-button"
@@ -182,7 +180,7 @@ watch(selected, changeSpeed)
         </button>
         <div class="selected">
           <span> Скорость воспроизведения</span>
-          <select v-model="selected" class="speed-select">
+          <select v-model="selectedSpeed" class="speed-select">
             <option value="1" >1</option>
             <option value="2">2</option>
             <option value="0.5">0.5</option>
@@ -218,7 +216,8 @@ watch(selected, changeSpeed)
           </button>
         </a>
         <timeline class="timeline"
-                  :duration="video?.duration"
+                  v-if="isControlsShown"
+                  :duration="videoEl?.duration"
                   :current-time="currentTime"
                   @on-time-updated="updateCurrentTime"/>
       </div>
