@@ -164,17 +164,19 @@ watch(selectedSpeed, changeSpeed)
           <img v-show="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
           <img v-show="isPlaying" src="@/assets/img/pause-button.svg" alt="Пауза" >
         </button>
-        <button class="rewind-forward-button"
-                aria-label="перемотка вперед"
-                title="перемотка вперед"
-                @click="rewindForward"
+        <button
+            class="rewind-forward-button"
+            aria-label="перемотка вперед"
+            title="перемотка вперед"
+            @click="rewindForward"
         >
           <img src="@/assets/img/5-seconds-forward.svg" alt="+5">
         </button>
-        <button class="rewind-backward-button"
-                aria-label="перемотка назад"
-                title="перемотка назад"
-                @click="rewindBackward"
+        <button
+            class="rewind-backward-button"
+            aria-label="перемотка назад"
+            title="перемотка назад"
+            @click="rewindBackward"
         >
           <img src="@/assets/img/5-seconds-back.svg" alt="-5">
         </button>
@@ -203,23 +205,27 @@ watch(selectedSpeed, changeSpeed)
         >
           <img src="@/assets/img/screenshot.svg" alt="Скриншот">
         </button>
-        <a v-if="imageURL"
-           :href="imageURL"
-           download="скаченный скриншот"
-           @click="clearScreenshot"
+        <a
+         v-if="imageURL"
+         :href="imageURL"
+         download="скаченный скриншот"
+         @click="clearScreenshot"
         >
-          <button class="download-screenshot-button"
-                  aria-label="Скачать снимок экрана"
-                  title="Скачать снимок экрана"
+          <button
+              class="download-screenshot-button"
+              aria-label="Скачать снимок экрана"
+              title="Скачать снимок экрана"
           >
             <img src="@/assets/img/download-button.svg" alt="Скачать скриншот">
           </button>
         </a>
-        <timeline class="timeline"
-                  v-if="isControlsShown"
-                  :duration="videoEl?.duration"
-                  :current-time="currentTime"
-                  @on-time-updated="updateCurrentTime"/>
+        <timeline
+            class="timeline"
+            v-if="isControlsShown"
+            :duration="videoEl?.duration"
+            :current-time="currentTime"
+            @on-time-updated="updateCurrentTime"
+        />
       </div>
     </transition>
   </div>
