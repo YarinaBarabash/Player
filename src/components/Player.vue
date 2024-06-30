@@ -5,11 +5,11 @@ import Timeline from "@/components/Timeline.vue";
 const videoEl = ref<HTMLVideoElement>();
 const playerEl = ref<HTMLDivElement>();
 const selectedSpeed = ref<string>('1');
-const currentTime = ref(0);
+const currentTime = ref<number>(0);
 const imageURL = ref<string>('');
-const isControlsShown = ref(false);
-const isPlaying= ref(false);
-const isFullScreen = ref(false);
+const isControlsShown = ref<boolean>(false);
+const isPlaying= ref<boolean>(false);
+const isFullScreen = ref<boolean>(false);
 
 
 let timeoutId: number;
