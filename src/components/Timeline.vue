@@ -18,7 +18,13 @@ const emit = defineEmits<{
   (e: 'on-time-updated', newCurrentTime: number): void;
 }>()
 
-const currentTimeInPercent = computed(() => `${props.currentTime * 100 / props.duration}%`)
+const currentTimeInPercent = computed(() => {
+  if (props.currentTime === 0) {
+    return 0;
+  }
+
+ return `${props.currentTime * 100 / props.duration}%`
+})
 </script>
 
 <template>

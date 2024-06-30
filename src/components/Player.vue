@@ -252,8 +252,8 @@ button {
 }
 
 img {
-  width: 45px;
-  height: 45px;
+  width: var(--icon-width);
+  height: var(--icon-height);
 }
 
 .full-size-button {
