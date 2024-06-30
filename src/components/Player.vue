@@ -108,7 +108,7 @@ const onTimeUpdate = (event: Event) => {
 }
 
 const onFullscreenChangeHandler = () => {
-  if(!document.webkitFullscreenEnabled || !document.fullscreenEnabled) {
+  if(!document.fullscreenElement || !document.webkitFullscreenEnabled || !document.fullscreenEnabled) {
     isFullScreen.value = false
   }
 }
