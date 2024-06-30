@@ -139,6 +139,8 @@ watch(selectedSpeed, changeSpeed)
 
     <video
         ref="videoEl"
+        width="1024"
+        height="720"
         crossorigin="anonymous"
         poster="@/assets/img/statham.webp"
         :class="{ fullScreen: isFullScreen }"
@@ -236,8 +238,6 @@ watch(selectedSpeed, changeSpeed)
 video {
   border-radius: 15px;
   object-fit: cover;
-  width: 1024px;
-  height: 720px;
 }
 
 button {
