@@ -64,7 +64,6 @@ const updateCurrentTime = (newTime: number) => {
         aria-label="воспроизведение/пауза"
         title="воспроизведение/пауза"
     >
-      {{ isFullScreen }}
       <img v-if="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
       <img v-else src="@/assets/img/pause-button.svg" alt="Пауза" >
     </button>
