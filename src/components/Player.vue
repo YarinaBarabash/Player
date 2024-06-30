@@ -52,11 +52,11 @@ const requestFullScreen = async () => {
   }
 }
 
-const exitFullscreen = () => {
+const exitFullscreen = async () => {
   if (document.exitFullscreen) {
-    document.exitFullscreen()
+    await document.exitFullscreen()
   } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
+    await document.webkitExitFullscreen();
   }
 }
 
