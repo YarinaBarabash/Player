@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import {onBeforeUnmount, onMounted, ref, watch} from "vue";
 import Timeline from "@/components/Timeline.vue";
-
-const REWIND_TIME = 5
-const TIMEOUT_HIDDEN_CONTROLS = 2000
 
 const videoEl = ref<HTMLVideoElement>();
 const playerEl = ref<HTMLDivElement>();
-
 const selectedSpeed = ref<string>('1');
-const currentTime = ref<number>(0);
+const currentTime = ref(0);
 const imageURL = ref<string>('');
-const isControlsShown = ref<boolean>(false);
-const isPlaying= ref<boolean>(false);
-const isFullScreen = ref<boolean>(false);
+const isControlsShown = ref(false);
+const isPlaying= ref(false);
+const isFullScreen = ref(false);
+
 
 let timeoutId: number;
+
+const REWIND_TIME = 5
+const TIMEOUT_HIDDEN_CONTROLS = 2000
 
 const togglePlayPause = () => {
   if (!isPlaying.value) {
@@ -164,19 +164,17 @@ watch(selectedSpeed, changeSpeed)
           <img v-show="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
           <img v-show="isPlaying" src="@/assets/img/pause-button.svg" alt="Пауза" >
         </button>
-        <button
-            class="rewind-forward-button"
-            aria-label="перемотка вперед"
-            title="перемотка вперед"
-            @click="rewindForward"
+        <button class="rewind-forward-button"
+                aria-label="перемотка вперед"
+                title="перемотка вперед"
+                @click="rewindForward"
         >
           <img src="@/assets/img/5-seconds-forward.svg" alt="+5">
         </button>
-        <button
-            class="rewind-backward-button"
-            aria-label="перемотка назад"
-            title="перемотка назад"
-            @click="rewindBackward"
+        <button class="rewind-backward-button"
+                aria-label="перемотка назад"
+                title="перемотка назад"
+                @click="rewindBackward"
         >
           <img src="@/assets/img/5-seconds-back.svg" alt="-5">
         </button>
@@ -205,33 +203,30 @@ watch(selectedSpeed, changeSpeed)
         >
           <img src="@/assets/img/screenshot.svg" alt="Скриншот">
         </button>
-        <a
-            v-if="imageURL"
-            :href="imageURL"
-            download="скаченный скриншот"
-            @click="clearScreenshot"
+        <a v-if="imageURL"
+           :href="imageURL"
+           download="скаченный скриншот"
+           @click="clearScreenshot"
         >
-          <button
-              class="download-screenshot-button"
-              aria-label="Скачать снимок экрана"
-              title="Скачать снимок экрана"
+          <button class="download-screenshot-button"
+                  aria-label="Скачать снимок экрана"
+                  title="Скачать снимок экрана"
           >
             <img src="@/assets/img/download-button.svg" alt="Скачать скриншот">
           </button>
         </a>
-        <timeline
-            class="timeline"
-            v-if="isControlsShown"
-            :duration="videoEl?.duration"
-            :current-time="currentTime"
-            @on-time-updated="updateCurrentTime"
-        />
+        <timeline class="timeline"
+                  v-if="isControlsShown"
+                  :duration="videoEl?.duration"
+                  :current-time="currentTime"
+                  @on-time-updated="updateCurrentTime"/>
       </div>
     </transition>
   </div>
 </template>
 
 <style scoped>
+
 .player {
   position: relative;
   width: max-content;
@@ -246,8 +241,8 @@ video {
 }
 
 button {
-  width: var(--button-width);
-  height: var(--button-height);
+  width: 45px;
+  height: 45px;
   position: absolute;
   left: 0;
   top: 0;
@@ -257,8 +252,8 @@ button {
 }
 
 img {
-  width: var(--button-width);
-  height: var(--button-height);
+  width: 45px;
+  height: 45px;
 }
 
 .full-size-button {
