@@ -121,11 +121,15 @@ const updateCurrentTime = (newCurrentTime: number) => {
 onMounted(()=> {
   playerEl.value.focus()
   document.addEventListener('fullscreenchange', onFullscreenChangeHandler);
+  document.addEventListener('webkitfullscreenchange', onFullscreenChangeHandler);
+
   currentTime.value = videoEl.value.currentTime;
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('fullscreenchange', onFullscreenChangeHandler);
+  document.removeEventListener('webkitfullscreenchange', onFullscreenChangeHandler);
+
 })
 </script>
 
