@@ -57,7 +57,7 @@ const updateCurrentTime = (newTime: number) => {
 </script>
 
 <template>
-  <div class="controls">
+  <div>
     <button
         @click="togglePlayPause"
         class="play-button"

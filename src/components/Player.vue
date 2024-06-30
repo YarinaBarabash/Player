@@ -136,14 +136,14 @@ onBeforeUnmount(() => {
   >
 
     <video
-        ref="videoEl"
-        crossorigin="anonymous"
-        poster="@/assets/img/statham.webp"
-        :class="{ fullScreen: isFullScreen }"
-        playsinline
-        allowfullscreen
-        @timeupdate="onTimeUpdate"
-        @click="togglePlayPause"
+      ref="videoEl"
+      crossorigin="anonymous"
+      poster="@/assets/img/statham.webp"
+      :class="{ fullScreen: isFullScreen }"
+      playsinline
+      allowfullscreen
+      @timeupdate="onTimeUpdate"
+      @click="togglePlayPause"
     >
       <source
           src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -153,7 +153,8 @@ onBeforeUnmount(() => {
 
     <transition>
       <controls
-          :duration="videoEl?.duration"
+          v-if="isControlsShown"
+          :duration="videoEl?.duration || 0"
           :current-time="currentTime"
           :is-playing="isPlaying"
           :image-url="imageURL"
