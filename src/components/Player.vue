@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
-import Controls from "@/components/Controls.vue";
+import Timeline from "@/components/Timeline.vue";
 
 const REWIND_TIME = 5
 const TIMEOUT_HIDDEN_CONTROLS = 2000
@@ -100,7 +100,7 @@ const onTimeUpdate = (event: Event) => {
 }
 
 const onFullscreenChangeHandler = () => {
-  if (!document.fullscreenElement) {
+  if(!document.fullscreenElement) {
     isFullScreen.value = false
   }
 }
@@ -119,32 +119,33 @@ onMounted(()=> {
 onBeforeUnmount(() => {
   document.removeEventListener('fullscreenchange', onFullscreenChangeHandler);
 })
+
+watch(selectedSpeed, changeSpeed)
 </script>
 
 <template>
   <div
-    class="player"
-    ref="playerEl"
-    tabindex="0"
-    @mouseenter="showControls"
-    @mousemove="showControls"
-    @keydown.space="onSpaceClick"
-    @click="showControls"
-    @keydown.right="rewindForward"
-    @keydown.left="rewindBackward"
-    @keydown.f="toggleFullSize"
+      class="player"
+      ref="playerEl"
+      tabindex="0"
+      @mouseenter="showControls"
+      @mousemove="showControls"
+      @keydown.space="onSpaceClick"
+      @click="showControls"
+      @keydown.right="rewindForward"
+      @keydown.left="rewindBackward"
+      @keydown.f="toggleFullSize"
   >
 
     <video
-      ref="videoEl"
-      width="1024"
-      height="720"
-      crossorigin="anonymous"
-      poster="@/assets/img/statham.webp"
-      :class="{ fullScreen: isFullScreen }"
-      playsinline
-      @timeupdate="onTimeUpdate"
-      @click="togglePlayPause"
+        ref="videoEl"
+        crossorigin="anonymous"
+        poster="@/assets/img/statham.webp"
+        :class="{ fullScreen: isFullScreen }"
+        playsinline
+        allowfullscreen
+        @timeupdate="onTimeUpdate"
+        @click="togglePlayPause"
     >
       <source
           src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -153,23 +154,79 @@ onBeforeUnmount(() => {
     </video>
 
     <transition>
-      <controls
-          v-if="isControlsShown"
-          :duration="videoEl?.duration || 0"
-          :current-time="currentTime"
-          :is-playing="isPlaying"
-          :image-url="imageURL"
-          :selected-speed="selectedSpeed"
-          :is-full-screen="isFullScreen"
-          @on-toggle-play-pause="togglePlayPause"
-          @on-clear-screenshot="clearScreenshot"
-          @on-make-screenshot="makeScreenshot"
-          @on-rewind-backward="rewindBackward"
-          @on-rewind-forward="rewindForward"
-          @on-toggle-fullsize="toggleFullSize"
-          @on-update-current-time="updateCurrentTime"
-          @on-update-selected-speed="changeSpeed"
-      />
+      <div class="controls" v-show="isControlsShown">
+        <button
+            @click="togglePlayPause"
+            class="play-button"
+            aria-label="воспроизведение/пауза"
+            title="воспроизведение/пауза"
+        >
+          <img v-show="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
+          <img v-show="isPlaying" src="@/assets/img/pause-button.svg" alt="Пауза" >
+        </button>
+        <button
+            class="rewind-forward-button"
+            aria-label="перемотка вперед"
+            title="перемотка вперед"
+            @click="rewindForward"
+        >
+          <img src="@/assets/img/5-seconds-forward.svg" alt="+5">
+        </button>
+        <button
+            class="rewind-backward-button"
+            aria-label="перемотка назад"
+            title="перемотка назад"
+            @click="rewindBackward"
+        >
+          <img src="@/assets/img/5-seconds-back.svg" alt="-5">
+        </button>
+        <div class="selected">
+          <span> Скорость воспроизведения</span>
+          <select v-model="selectedSpeed" class="speed-select">
+            <option value="1" >1</option>
+            <option value="2">2</option>
+            <option value="0.5">0.5</option>
+          </select>
+        </div>
+        <button
+            class="full-size-button"
+            aria-label="Полноэкранный режим"
+            title="Полноэкранный режим"
+            @click="toggleFullSize"
+        >
+          <img src="@/assets/img/fullscreen.svg" alt="full-size" v-show="!isFullScreen">
+          <img src="@/assets/img/fullscreen-exit.svg" alt="Exit full-size" v-show="isFullScreen">
+        </button>
+        <button
+            class="make-screenshot-button"
+            aria-label="Сделать снимок экрана"
+            title="Сделать снимок экрана"
+            @click="makeScreenshot"
+        >
+          <img src="@/assets/img/screenshot.svg" alt="Скриншот">
+        </button>
+        <a
+            v-if="imageURL"
+            :href="imageURL"
+            download="скаченный скриншот"
+            @click="clearScreenshot"
+        >
+          <button
+              class="download-screenshot-button"
+              aria-label="Скачать снимок экрана"
+              title="Скачать снимок экрана"
+          >
+            <img src="@/assets/img/download-button.svg" alt="Скачать скриншот">
+          </button>
+        </a>
+        <timeline
+            class="timeline"
+            v-if="isControlsShown"
+            :duration="videoEl?.duration"
+            :current-time="currentTime"
+            @on-time-updated="updateCurrentTime"
+        />
+      </div>
     </transition>
   </div>
 </template>
@@ -184,6 +241,77 @@ onBeforeUnmount(() => {
 video {
   border-radius: 15px;
   object-fit: cover;
+  width: 1024px;
+  height: 720px;
+}
+
+button {
+  width: var(--button-width);
+  height: var(--button-height);
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+img {
+  width: var(--button-width);
+  height: var(--button-height);
+}
+
+.full-size-button {
+  top: 91%;
+  left: 90%;
+  width: max-content;
+}
+
+.rewind-forward-button{
+  top: 50%;
+  left: 85%;
+}
+
+.rewind-backward-button {
+  top: 50%;
+  left: 5%;
+}
+
+.selected{
+  position: absolute;
+  top: 90%;
+  left: 5%;
+  width: 110px;
+}
+
+.speed-select {
+  width: 110px;
+}
+
+.play-button {
+  top: 50%;
+  left: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.make-screenshot-button {
+  top: 91%;
+  left: 80%;
+  width: max-content;
+}
+
+.download-screenshot-button{
+  top: 91%;
+  left: 65%;
+  width: max-content;
+}
+
+.timeline {
+  position: absolute;
+  bottom: 10px;
 }
 
 video::-webkit-media-controls {
