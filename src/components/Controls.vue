@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
 
 import Timeline from "@/components/Timeline.vue";
 
@@ -7,7 +8,6 @@ defineProps<{
   selectedSpeed: string
   isFullScreen: boolean
   imageUrl: string
-  isControlsShown: boolean
   duration: number
   currentTime: number
 }>()
@@ -64,6 +64,7 @@ const updateCurrentTime = (newTime: number) => {
         aria-label="воспроизведение/пауза"
         title="воспроизведение/пауза"
     >
+      {{ isFullScreen }}
       <img v-if="!isPlaying" src="@/assets/img/play-button.svg" alt="Плей" >
       <img v-else src="@/assets/img/pause-button.svg" alt="Пауза" >
     </button>
@@ -124,7 +125,6 @@ const updateCurrentTime = (newTime: number) => {
     </a>
     <timeline
         class="timeline"
-        v-if="isControlsShown"
         :duration="duration"
         :current-time="currentTime"
         @on-time-updated="updateCurrentTime"

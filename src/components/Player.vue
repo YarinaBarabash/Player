@@ -100,7 +100,7 @@ const onTimeUpdate = (event: Event) => {
 }
 
 const onFullscreenChangeHandler = () => {
-  if(!document.fullscreenElement) {
+  if (!document.fullscreenElement) {
     isFullScreen.value = false
   }
 }
@@ -137,6 +137,8 @@ onBeforeUnmount(() => {
 
     <video
       ref="videoEl"
+      width="1024"
+      height="720"
       crossorigin="anonymous"
       poster="@/assets/img/statham.webp"
       :class="{ fullScreen: isFullScreen }"
@@ -159,7 +161,6 @@ onBeforeUnmount(() => {
           :image-url="imageURL"
           :selected-speed="selectedSpeed"
           :is-full-screen="isFullScreen"
-          :is-controls-shown="isControlsShown"
           @on-toggle-play-pause="togglePlayPause"
           @on-clear-screenshot="clearScreenshot"
           @on-make-screenshot="makeScreenshot"
@@ -183,8 +184,6 @@ onBeforeUnmount(() => {
 video {
   border-radius: 15px;
   object-fit: cover;
-  width: 1024px;
-  height: 720px;
 }
 
 video::-webkit-media-controls {
