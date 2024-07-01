@@ -124,6 +124,7 @@ onMounted(()=> {
   playerEl.value.focus()
   document.addEventListener('fullscreenchange', onFullscreenChangeHandler);
   videoEl.value.addEventListener('webkitfullscreenchange', onFullscreenChangeHandler);
+  videoEl.value.addEventListener('webkitendfullscreen', onFullscreenChangeHandler);
   currentTime.value = videoEl.value.currentTime;
 });
 
