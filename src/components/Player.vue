@@ -130,6 +130,7 @@ onMounted(()=> {
 onBeforeUnmount(() => {
   document.removeEventListener('fullscreenchange', onFullscreenChangeHandler);
   videoEl.value.removeEventListener('webkitfullscreenchange', onFullscreenChangeHandler);
+  videoEl.value.removeEventListener('webkitendfullscreen', onFullscreenChangeHandler);
 })
 </script>
 
